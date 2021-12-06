@@ -13,13 +13,12 @@ void zhasni();
 void rozsvit();
 void otoc();
 void vstan();
-
+void spi();
 
 byte cislo = 0;
 byte toc = 0;
 int cas = 0;
 int cas_min = 0;
-
 
 void setup()
 {
@@ -28,31 +27,16 @@ void setup()
   pinMode(vpred, OUTPUT);
   pinMode(vzad, OUTPUT);
   pinMode(tl, INPUT_PULLUP);
+  spi();
 }
 
 void loop()
 {
 
-  zhasni();
-  GIMSK |= _BV(PCIE);
-  PCMSK |= _BV(PCINT1);
-  sei();
-  set_sleep_mode (SLEEP_MODE_PWR_DOWN);
- // cli();
-//  sleep_enable();
-  sleep_mode();
-//  sleep_cpu ();
+  // while (digitalRead(tl) == 1)
+  // {
 
-  //sleep_disable();   
- // power_all_enable();
-  //attachInterrupt (digitalPinToInterrupt(1), vstan, FALLING);
-  //interrupts ();
-  //losuj();
-
-  while (digitalRead(tl) == 1)
-  {
-    
-  }
+  // }
   zhasni();
   while (digitalRead(tl) == 0)
   {
@@ -107,18 +91,26 @@ void loop()
     break;
   }
 
-  
+  /*
   
   for (int i = 0; i < 500; i++)
   {
     delay(1);
-    if (digitalRead(tl) == 0)
+    if (digitalRead(tl) == 0){
+    while (digitalRead(tl) == 0)
     {
-      break;
+      
     } 
+    break;
+    }
+  }
+*/
+  delay(400);
+  while (digitalRead(tl) == 0)
+  {
   }
 
-  
+  spi();
 }
 
 void zhasni()
@@ -139,7 +131,7 @@ void rozsvit()
 
 void otoc()
 {
-  toc ++;
+  toc++;
   switch (toc)
   {
   case 1:
@@ -156,16 +148,36 @@ void otoc()
   case 3:
     digitalWrite(vpred, LOW);
     digitalWrite(vzad, HIGH);
-    toc=0;
+    toc = 0;
     break;
   }
+}
+
+void spi()
+{
+
+  zhasni();
+  GIMSK |= _BV(PCIE);
+  PCMSK |= _BV(PCINT1);
+  sei();
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  // cli();
+  //  sleep_enable();
+  sleep_mode();
+  //  sleep_cpu ();
+ cli();
+  //sleep_disable();
+  // power_all_enable();
+  //attachInterrupt (digitalPinToInterrupt(1), vstan, FALLING);
+  //interrupts ();
+  //losuj();
 }
 
 //void vstan(){
 //  sleep_disable();
 //}
 
-ISR(PCINT0_vect) {
+ISR(PCINT0_vect)
+{
   //  sleep_disable();
 }
-
