@@ -12,7 +12,6 @@
 void zhasni();
 void rozsvit();
 void otoc();
-//void losuj();
 void vstan();
 
 
@@ -24,7 +23,6 @@ int cas_min = 0;
 
 void setup()
 {
-  // put your setup code here, to run once:
   pinMode(stred, OUTPUT);
   pinMode(rovne, OUTPUT);
   pinMode(vpred, OUTPUT);
@@ -50,10 +48,7 @@ void loop()
   //attachInterrupt (digitalPinToInterrupt(1), vstan, FALLING);
   //interrupts ();
   //losuj();
-//}
 
-//void losuj()
-//{
   while (digitalRead(tl) == 1)
   {
     
@@ -171,7 +166,6 @@ void otoc()
 //}
 
 ISR(PCINT0_vect) {
-    // This is called when the interrupt occurs, but I don't need to do anything in it
   //  sleep_disable();
 }
 
