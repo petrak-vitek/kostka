@@ -12,11 +12,15 @@
 void zhasni();
 void rozsvit();
 void otoc();
+//void losuj();
+void vstan();
+
 
 byte cislo = 0;
 byte toc = 0;
 int cas = 0;
 int cas_min = 0;
+
 
 void setup()
 {
@@ -30,9 +34,29 @@ void setup()
 
 void loop()
 {
+
+  zhasni();
+  GIMSK |= _BV(PCIE);
+  PCMSK |= _BV(PCINT1);
+  sei();
+  set_sleep_mode (SLEEP_MODE_PWR_DOWN);
+ // cli();
+//  sleep_enable();
+  sleep_mode();
+//  sleep_cpu ();
+
+  //sleep_disable();   
+ // power_all_enable();
+  //attachInterrupt (digitalPinToInterrupt(1), vstan, FALLING);
+  //interrupts ();
+  //losuj();
+//}
+
+//void losuj()
+//{
   while (digitalRead(tl) == 1)
   {
-  //  sleep(10);
+    
   }
   zhasni();
   while (digitalRead(tl) == 0)
@@ -87,16 +111,18 @@ void loop()
     digitalWrite(rovne, HIGH);
     break;
   }
-  for (int i = 0; i < 1000; i++)
+
+  
+  
+  for (int i = 0; i < 500; i++)
   {
     delay(1);
     if (digitalRead(tl) == 0)
     {
       break;
-    }
-    
+    } 
   }
-  zhasni();
+
   
 }
 
@@ -139,3 +165,13 @@ void otoc()
     break;
   }
 }
+
+//void vstan(){
+//  sleep_disable();
+//}
+
+ISR(PCINT0_vect) {
+    // This is called when the interrupt occurs, but I don't need to do anything in it
+  //  sleep_disable();
+}
+
